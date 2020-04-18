@@ -14,6 +14,13 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    if(argc !=3){
+        cout<<"Order SNP according to rs number with information from a VCF file"<<endl;
+        cout<<"Usage:"<<endl;
+        cout<<"snpInfo vcfFile outdir"<<endl;
+    }
+    
+    
     set<SNPInfo> test;
     
     test.insert(SNPInfo(1, "aa"));

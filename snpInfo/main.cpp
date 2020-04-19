@@ -7,9 +7,8 @@
 //
 
 #include <iostream>
-#include <set>
 
-#include "SNPInfo.hpp"
+#include "SortSNP.hpp"
 
 using namespace std;
 
@@ -20,16 +19,9 @@ int main(int argc, const char * argv[]) {
         cout<<"snpInfo vcfFile outdir"<<endl;
     }
     
-    
-    set<SNPInfo> test;
-    
-    test.insert(SNPInfo(1, "aa"));
-    test.insert(SNPInfo(10, "bb"));
-    test.insert(SNPInfo(7, "cc"));
-    test.insert(SNPInfo(1, "dd"));
-    
-    for(set<SNPInfo>::iterator it = test.begin(); it != test.end(); it++){
-        cout<<(*it).getRS()<<'\t'<<(*it).getInfo()<<endl;
+    if(!sortSNP(argv[1], argv[2])){
+        cerr << "Error during SNP sorting!"<<endl;
+        return 1;
     }
     return 0;
 }

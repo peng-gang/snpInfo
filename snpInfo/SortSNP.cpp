@@ -17,9 +17,27 @@
 using namespace std;
 
 string getInfo(string infoAll){
-    string info = "";
+    size_t st = infoAll.find("GENEINFO");
+    string gene = "";
+    if(st != string::npos){
+        size_t ed = infoAll.find(":", st);
+        gene = infoAll.substr(st+9, ed - st - 9);
+    }
+    string rlt = gene + "\t";
     
-    return info;
+    if(infoAll.find("NSF") != string::npos){
+        rlt = rlt + "NSF";
+    }
+    
+    if(infoAll.find("NSM") != string::npos){
+        rlt = rlt + ";" + "NSM";
+    }
+    
+    if(infoAll.find("NSN") != string::npos){
+        rlt = rlt + ";" + "NSN";
+    }
+    
+    return rlt;
 }
 
 bool sortSNP(const char* vcfFile, const char* outDir){
@@ -45,7 +63,8 @@ bool sortSNP(const char* vcfFile, const char* outDir){
         if(fline.size() < 2){
             // process the last record
             cout<<"Output "<<currentChr<<endl;
-            fout.open((strOutDir +  currentChr + ".txt").c_str());
+            fout.open((strOutDir +  currentChr + ".txt").c_str()); //, std::ofstream::out | std::ofstream::app);
+            fout<<"rs\tpos\tgene\tinfo"<<endl;
             for(set<SNPInfo>::iterator it = snpInfo.begin(); it != snpInfo.end(); it++){
                 fout<<(*it).getRS()<<"\t"<<(*it).getInfo()<<endl;
             }
@@ -58,7 +77,8 @@ bool sortSNP(const char* vcfFile, const char* outDir){
         if(currentChr != vsline[0]){
             if(currentChr != ""){
                 cout<<"Output "<<currentChr<<endl;
-                fout.open((strOutDir +  currentChr + ".txt").c_str());
+                fout.open((strOutDir +  currentChr + ".txt").c_str()); //, std::ofstream::out | std::ofstream::app);
+                fout<<"rs\tpos\tgene\tinfo"<<endl;
                 for(set<SNPInfo>::iterator it = snpInfo.begin(); it != snpInfo.end(); it++){
                     fout<<(*it).getRS()<<"\t"<<(*it).getInfo()<<endl;
                 }
@@ -70,7 +90,7 @@ bool sortSNP(const char* vcfFile, const char* outDir){
         }
         
         int rsTmp = stoi(vsline[2].substr(2));
-        string info = vsline[1] + ";" + getInfo(vsline[7]);
+        string info = vsline[1] + "\t" + getInfo(vsline[7]);
         snpInfo.insert(SNPInfo(rsTmp, info));
     }
     return  true;

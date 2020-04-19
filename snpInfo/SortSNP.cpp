@@ -75,6 +75,7 @@ bool sortSNP(const char* vcfFile, const char* outDir){
         if(fline.size() < 2){
             // process the last record
             cout<<"Output "<<currentChr<<endl;
+            cout<<"Total SNP: " << snpInfo.size() << endl;
             fout.open((strOutDir +  currentChr + ".txt").c_str()); //, std::ofstream::out | std::ofstream::app);
             fout<<"rs\tpos\tgene\tinfo"<<endl;
             for(set<SNPInfo>::iterator it = snpInfo.begin(); it != snpInfo.end(); it++){
@@ -89,6 +90,7 @@ bool sortSNP(const char* vcfFile, const char* outDir){
         if(currentChr != vsline[0]){
             if(currentChr != ""){
                 cout<<"Output "<<currentChr<<endl;
+                cout<<"Total SNP: " << snpInfo.size() << endl;
                 fout.open((strOutDir +  currentChr + ".txt").c_str()); //, std::ofstream::out | std::ofstream::app);
                 fout<<"rs\tpos\tgene\tinfo"<<endl;
                 for(set<SNPInfo>::iterator it = snpInfo.begin(); it != snpInfo.end(); it++){

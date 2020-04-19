@@ -25,16 +25,28 @@ string getInfo(string infoAll){
     }
     string rlt = gene + "\t";
     
+    bool flag = false;
     if(infoAll.find("NSF") != string::npos){
         rlt = rlt + "NSF";
+        flag = true;
     }
     
     if(infoAll.find("NSM") != string::npos){
-        rlt = rlt + ";" + "NSM";
+        if(flag){
+            rlt = rlt + ";" + "NSM";
+        } else {
+            rlt = rlt + "NSM";
+        }
+        flag = true;
+        
     }
     
     if(infoAll.find("NSN") != string::npos){
-        rlt = rlt + ";" + "NSN";
+        if(flag){
+            rlt = rlt + ";" + "NSN";
+        } else {
+            rlt = rlt + "NSN";
+        }
     }
     
     return rlt;
